@@ -1,15 +1,21 @@
 import { Meteor } from "meteor/meteor";
-import { onPageLoad } from "meteor/server-render";
+import { pg } from "meteor/numtel:pg";
+
+// Importante borrar los console.log al finalizar y asegurarnos que funciona correctamente la pagina, dejar los console.error
 
 Meteor.startup(() => {
-  // Code to run on server startup.
-  console.log(`Greetings from ${module.id}!`);
-});
+	const settings = Meteor.settings.postgres;
 
-onPageLoad(sink => {
-  // Code to run on every request.
-  sink.renderIntoElementById(
-    "server-render-target",
-    `Server time: ${new Date}`
-  );
+	if (!settings) {
+		console.error('Error al obtener settings.json');
+		return;
+	}
+
+	// Connection to PostgreSQL database
+	try {
+		pg.connect(settings);
+		console.log('Conectado a PostgreSQL');
+	}catch{
+		console.error('Error en la conexion a PostgreSQL');
+	}
 });
