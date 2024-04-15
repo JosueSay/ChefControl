@@ -21,6 +21,23 @@ export async function getUserLoginInfo(id_tipo_usuario, nombre) {
   }
 }
 
+// Nueva función para obtener solo el id_usuario
+export async function getUserId(id_tipo_usuario, nombre) {
+  try {
+    const query = 'SELECT id_usuario FROM Usuarios WHERE id_tipo_usuario = $1 AND nombre = $2';
+    const result = await client.query(query, [id_tipo_usuario, nombre]);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    return result.rows[0].id_usuario;
+  } catch (error) {
+    console.error('Error fetching user id:', error);
+    throw error;
+  }
+}
+
 
 // Función para registrar usuarios
 export async function registerUser(id_tipo_usuario, nombre, contrasenia) {

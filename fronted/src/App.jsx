@@ -7,6 +7,7 @@ import HomeChef from './Home/HomeChef';
 import HomeMesero from './Home/HomeMesero';
 import Cuentas from './Home/Cuentas'; 
 import DetalleCuenta from './Home/DetalleCuenta';
+import CrearCuenta from './Home/CrearCuenta';
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
           </Route>
           <Route path="/cuentas/:idCuenta">
             <DetalleCuenta />
+          </Route>
+          <Route path="/crearCuenta"> 
+            <CrearCuenta />
           </Route>
           <Redirect from="/" to="/login" />
         </Switch>

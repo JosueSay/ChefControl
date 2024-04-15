@@ -3,7 +3,7 @@ import fs from 'fs';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
-import { getUserLoginInfo, registerUser } from '../database/auth.js';
+import { getUserLoginInfo, registerUser, getUserId } from '../database/auth.js';
 import { getTiposUsuarios } from '../database/tiposUsuarios.js';
 import { marcarPedidoComoFinalizado, getPedidosComidas, getPedidosBebidas} from '../database/pedidosChef.js';
 import {getCuentas, getCuentaPorId, cambiarEstadoCuenta} from '../database/cuentas.js'
@@ -168,6 +168,28 @@ app.post('/login', async (req, res) => {
   } catch (error) {
     console.error('Error en el inicio de sesión:', error);
     logRequest('POST', '/login', 'Error', error);
+    return res.status(500).json({ error: 'Error en el servidor' });
+  }
+});
+
+// Nuevo endpoint para obtener el id_usuario
+app.get('/getUserId', async (req, res) => {
+  const { id_tipo_usuario, nombre } = req.query; // Obtener los parámetros de la consulta
+
+  try {
+    if (!id_tipo_usuario || !nombre) {
+      return res.status(400).json({ error: 'Faltan parámetros' });
+    }
+
+    const userId = await getUserId(id_tipo_usuario, nombre);
+
+    if (!userId) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    return res.status(200).json({ id_usuario: userId });
+  } catch (error) {
+    console.error('Error en la obtención del id de usuario:', error);
     return res.status(500).json({ error: 'Error en el servidor' });
   }
 });

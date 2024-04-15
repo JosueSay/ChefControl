@@ -56,6 +56,7 @@ function DetalleCuenta() {
       {/* Botón CERRAR */}
       <button className="boton-detalle" onClick={handleRegresar}>REGRESAR</button>
       <button className="quitar-cuenta">CERRAR CUENTA</button>
+      <button className="quitar-cuenta">AGREGAR PEDIDO</button>
     </div>
   );
 }

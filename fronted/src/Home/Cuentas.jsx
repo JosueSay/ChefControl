@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './Cuentas.css';
 
-function Cuentas() {
+function Cuentas({ userId }) {
   const [cuentasAbiertas, setCuentasAbiertas] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
-    // Función para obtener las cuentas abiertas del servidor
     const obtenerCuentasAbiertas = async () => {
       try {
         const response = await fetch('http://localhost:3000/cuentasAbiertas');
@@ -29,9 +28,14 @@ function Cuentas() {
   };
 
   const handleAgregarClick = () => {
-    // Aquí puedes agregar la lógica para redirigir a la vista de agregar cuentas
-    // history.push('/agregar-cuenta');
+    if (userId) {
+      history.push(`/agregar-cuenta?userId=${userId}`);
+    } else {
+      console.error("UserID no está disponible.");
+    }
   };
+
+  console.log("UserID in Cuentas:", userId); // Agrega este console.log
 
   return (
     <div className="cuentas">

@@ -30,25 +30,33 @@ function LoginForm({ onSubmit }) {
       },
       body: JSON.stringify({ nombre: username, contrasenia: password, id_tipo_usuario: userType }),
     })
+
+
+
+
     .then(response => {
       if (response.ok) {
         alert('Login exitoso');
-        /// Encuentra el tipo de usuario en la lista basado en el id seleccionado
+        // Encuentra el tipo de usuario en la lista basado en el id seleccionado
         const userTypeDetails = userTypes.find(type => type.id_tipo_usuario === parseInt(userType));
         if (userTypeDetails && userTypeDetails.nombre === 'Chef') {
           history.push('/home-chef');
-        
-          
-        }else if(userTypeDetails && userTypeDetails.nombre === 'Mesero'){
-          history.push('/home-mesero');
-          
-
+        } else if(userTypeDetails && userTypeDetails.nombre === 'Mesero'){
+          // Obtener el ID del usuario usando el endpoint get
+          fetch(`http://localhost:3000/getUserId?id_tipo_usuario=${userType}&nombre=${username}`)
+            .then(response => response.json())
+            .then(data => {
+              // ID del usuario
+              const userId = data.id_usuario;
+              //console.log(userId);
+              history.push(`/home-mesero?userId=${userId}`);
+            })
+            .catch(error => console.error('Error al obtener el ID del usuario:', error));
         }
-        
-
-      } else {
+      }else {
         alert('Nombre de usuario, contraseña o tipo de usuario incorrectos');
       }
+      
     })
     .catch(error => {
       console.error('Error en el login:', error);
