@@ -14,6 +14,22 @@ export async function getCuentas() {
     }
   }
 
+export async function getMesasPorEstado(estado) {
+  try {
+    // Consulta SQL para obtener las mesas con un estado específico
+    const query = 'SELECT * FROM Mesas WHERE id_estado_mesa = (SELECT id_estado_mesa FROM EstadosMesas WHERE nombre = $1)';
+    const result = await client.query(query, [estado]);
+
+    // Devuelve el resultado de la consulta
+    return result.rows;
+  } catch (error) {
+    console.error('Error al obtener las mesas por estado:', error);
+    throw error;
+  }
+}
+
+
+
   export async function getCuentaPorId(idCuenta) {
     try {
       // Consulta SQL para obtener la cuenta por su ID

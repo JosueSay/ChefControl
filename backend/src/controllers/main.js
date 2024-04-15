@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 import { getUserLoginInfo, registerUser, getUserId } from '../database/auth.js';
 import { getTiposUsuarios } from '../database/tiposUsuarios.js';
 import { marcarPedidoComoFinalizado, getPedidosComidas, getPedidosBebidas} from '../database/pedidosChef.js';
-import {getCuentas, getCuentaPorId, cambiarEstadoCuenta} from '../database/cuentas.js'
+import {getCuentas, getCuentaPorId, cambiarEstadoCuenta, getMesasPorEstado} from '../database/cuentas.js'
 
 const app = express();
 const port = 3000;
@@ -24,6 +24,29 @@ function logRequest(type, endpoint, result, requestData) {
     }
   });
 }
+
+// Endpoint para obtener las mesas disponibles
+app.get('/mesas/disponibles', async (req, res) => {
+  try {
+    // Llamar a la función para obtener las mesas disponibles
+    const mesasDisponibles = await getMesasPorEstado('Disponible');
+
+    // Registrar el log de la solicitud
+    logRequest('GET', '/mesas/disponibles', 'Éxito', { mesas: mesasDisponibles });
+
+    // Devolver las mesas disponibles como respuesta
+    res.status(200).json(mesasDisponibles);
+  } catch (error) {
+    console.error('Error al obtener las mesas disponibles:', error);
+
+    // Registrar el log de la solicitud con el error
+    logRequest('GET', '/mesas/disponibles', 'Error', { error: error.message });
+
+    // Devolver un mensaje de error como respuesta
+    res.status(500).json({ error: 'Error al obtener las mesas disponibles.' });
+  }
+});
+
 
 // Endpoint para cambiar el estado de una cuenta
 app.put('/cuentas/:idCuenta/cambiarEstado', async (req, res) => {

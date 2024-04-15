@@ -9,6 +9,14 @@ import Cuentas from './Home/Cuentas';
 import DetalleCuenta from './Home/DetalleCuenta';
 import CrearCuenta from './Home/CrearCuenta';
 
+function CrearCuentaWrapper() {
+  // Extraer el userId de la URL
+  const searchParams = new URLSearchParams(window.location.search);
+  const userId = searchParams.get('userId');
+
+  return <CrearCuenta userId={userId} />;
+}
+
 function App() {
   return (
     <Router>
@@ -32,8 +40,8 @@ function App() {
           <Route path="/cuentas/:idCuenta">
             <DetalleCuenta />
           </Route>
-          <Route path="/crearCuenta"> 
-            <CrearCuenta />
+          <Route path="/crearCuenta">
+            <CrearCuentaWrapper /> {/* Usa el componente envolvente */}
           </Route>
           <Redirect from="/" to="/login" />
         </Switch>

@@ -15,7 +15,7 @@ function HomeMesero() {
     const searchParams = new URLSearchParams(location.search);
     const userIdFromURL = searchParams.get('userId');
     setUserId(userIdFromURL);
-    console.log("UserID from URL:", userIdFromURL);
+    
   }, [location.search]);
 
   useEffect(() => {
