@@ -29,13 +29,13 @@ function Cuentas({ userId }) {
 
   const handleAgregarClick = () => {
     if (userId) {
-      history.push(`/agregar-cuenta?userId=${userId}`);
+      history.push(`/crearCuenta?userId=${userId}`);
     } else {
       console.error("UserID no está disponible.");
     }
   };
 
-  console.log("UserID in Cuentas:", userId); // Agrega este console.log
+  //console.log("UserID in Cuentas:", userId); 
 
   return (
     <div className="cuentas">
