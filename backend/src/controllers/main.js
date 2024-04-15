@@ -3,13 +3,10 @@ import fs from 'fs';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
-import { getUserLoginInfo } from '../database/auth.js';
-import { registerUser } from '../database/auth.js';
+import { getUserLoginInfo, registerUser } from '../database/auth.js';
 import { getTiposUsuarios } from '../database/tiposUsuarios.js';
-import { getPedidosComidas } from '../database/pedidosChef.js';
-import { marcarPedidoComoFinalizado } from '../database/pedidosChef.js';
-import { getPedidosBebidas } from '../database/pedidosChef.js';
-
+import { marcarPedidoComoFinalizado, getPedidosComidas, getPedidosBebidas} from '../database/pedidosChef.js';
+import {getCuentas, getCuentaPorId, cambiarEstadoCuenta} from '../database/cuentas.js'
 
 const app = express();
 const port = 3000;
@@ -28,6 +25,64 @@ function logRequest(type, endpoint, result, requestData) {
   });
 }
 
+// Endpoint para cambiar el estado de una cuenta
+app.put('/cuentas/:idCuenta/cambiarEstado', async (req, res) => {
+  try {
+    const idCuenta = req.params.idCuenta; // Obtener el ID de la cuenta desde los parámetros de la solicitud
+    const nuevoEstado = 'Cerrada'; // Nuevo estado al que se cambiará la cuenta
+    
+    // Llamar a la función para cambiar el estado de la cuenta
+    const mensaje = await cambiarEstadoCuenta(idCuenta, nuevoEstado);
+    
+    // Registrar el log de la solicitud
+    logRequest('PUT', '/cuentas/:idCuenta/cambiarEstado', 'Éxito', { idCuenta, nuevoEstado });
+    
+    // Devolver un mensaje de éxito como respuesta
+    res.status(200).json({ message: mensaje });
+  } catch (error) {
+    console.error('Error al cambiar el estado de la cuenta:', error);
+    // Registrar el log de la solicitud con el error
+    logRequest('PUT', '/cuentas/:idCuenta/cambiarEstado', 'Error', { error: error.message });
+    res.status(500).json({ error: 'Error al cambiar el estado de la cuenta.' });
+  }
+});
+
+
+// Endpoint para obtener una cuenta por su ID
+app.get('/cuentas/:idCuenta', async (req, res) => {
+  try {
+    const idCuenta = req.params.idCuenta; // Obtener el ID de la cuenta desde los parámetros de la solicitud
+    const cuenta = await getCuentaPorId(idCuenta); // Llamar a la función para obtener la cuenta por su ID
+    
+    // Verificar si se encontró la cuenta
+    if (!cuenta) {
+      res.status(404).json({ error: `La cuenta con ID ${idCuenta} no fue encontrada.` });
+      return;
+    }
+
+    // Si se encontró la cuenta, devolverla como respuesta
+    res.status(200).json(cuenta);
+  } catch (error) {
+    console.error('Error al obtener la cuenta por ID:', error);
+    res.status(500).json({ error: 'Error al obtener la cuenta por ID.' });
+  }
+});
+
+
+// Endpoint para obtener las cuentas abiertas
+app.get('/cuentasAbiertas', async (req, res) => {
+  try {
+    const cuentasAbiertas = await getCuentas(); // Llamar a la función para obtener las cuentas abiertas
+    logRequest('GET', '/cuentasAbiertas', 'Éxito', null); // Registrar el evento en los logs
+    res.status(200).json(cuentasAbiertas);
+  } catch (error) {
+    console.error('Error al obtener las cuentas abiertas:', error);
+    logRequest('GET', '/cuentasAbiertas', 'Error', null); // Registrar el evento en los logs
+    res.status(500).json({ error: 'Error al obtener las cuentas abiertas.' });
+  }
+});
+
+
 // Endpoint para marcar un pedido como finalizado
 app.post('/marcarPedidoFinalizado', async (req, res) => {
   try {
@@ -42,7 +97,7 @@ app.post('/marcarPedidoFinalizado', async (req, res) => {
   }
 });
 
-// Endpoint para obtener los pedidos de tipo "Cuenta"
+// Endpoint para obtener los pedidos de tipo "Comidas"
 app.get('/pedidos-comidas', async (req, res) => {
   try {
     const pedidosCuenta = await getPedidosComidas();

@@ -1,6 +1,3 @@
-CREATE DATABASE chefcontrol;
-
-\c chefcontrol;
 
 CREATE TABLE TiposQuejas (
     id_tipo_queja SERIAL PRIMARY KEY,
@@ -109,6 +106,7 @@ INSERT INTO Facturas (id_cliente, id_cuenta, monto_total, subtotal) VALUES
 CREATE TABLE Cuentas (
     id_cuenta SERIAL PRIMARY KEY,
     id_usuario INT,
+	id_mesa INT,
     estado VARCHAR(50),
     fecha_hora_apertura TIMESTAMP,
     fecha_hora_cierre TIMESTAMP,
@@ -129,7 +127,8 @@ CREATE TABLE TiposConsumos (
 INSERT INTO TiposConsumos (nombre) VALUES 
 ('Almuerzo'),
 ('Cena'),
-('Merienda');
+('Merienda'),
+('Propina');
 
 
 CREATE TABLE TiposPagos (
@@ -161,15 +160,14 @@ CREATE TABLE Pedidos (
    id_pedido SERIAL PRIMARY KEY,
    id_cuenta INT,
    id_alimento INT,
-   id_mesa INT,
    id_tipo_consumo INT,
    cantidad INT
 );
 
-INSERT INTO Pedidos (id_cuenta, id_alimento, id_mesa, id_tipo_consumo, cantidad) VALUES 
-(1, 1, 1, 1, 2),
-(1, 3, 2, 1, 1),
-(2, 2, 3, 2, 1);
+INSERT INTO Pedidos (id_cuenta, id_alimento, id_tipo_consumo, cantidad) VALUES 
+(1, 1, 1, 2),
+(1, 3, 1, 1),
+(2, 2, 2, 1);
 
 
 CREATE TABLE Mesas (
@@ -235,8 +233,8 @@ CREATE TABLE TiposClientes (
 );
 
 INSERT INTO TiposClientes (nombre) VALUES 
-('Regular'),
-('VIP');
+('Fumador'),
+('No Fumador');
 
 CREATE TABLE Alimentos (
    id_alimento SERIAL PRIMARY KEY,
@@ -259,7 +257,8 @@ CREATE TABLE TiposAlimentos (
 INSERT INTO TiposAlimentos (nombre) VALUES 
 ('Entrada'),
 ('Plato Principal'),
-('Postre');
+('Postre'),
+('Bebidas');
 
 ALTER TABLE Quejas
 ADD CONSTRAINT fk_cliente FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente),
@@ -283,7 +282,8 @@ ADD CONSTRAINT fk_cliente_factura FOREIGN KEY (id_cliente) REFERENCES Clientes(i
 ADD CONSTRAINT fk_cuenta_factura FOREIGN KEY (id_cuenta) REFERENCES Cuentas(id_cuenta);
 
 ALTER TABLE Cuentas
-ADD CONSTRAINT fk_usuario_cuenta FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario);
+ADD CONSTRAINT fk_usuario_cuenta FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario), 
+ADD CONSTRAINT fk_mesa_pedido FOREIGN KEY (id_mesa) REFERENCES Mesas(id_mesa);
 
 ALTER TABLE Pagos
 ADD CONSTRAINT fk_tipo_pago_pago FOREIGN KEY (id_tipo_pago) REFERENCES TiposPagos(id_tipo_pago),
@@ -293,7 +293,6 @@ ADD CONSTRAINT fk_cuenta_pago FOREIGN KEY (id_cuenta) REFERENCES Cuentas(id_cuen
 ALTER TABLE Pedidos
 ADD CONSTRAINT fk_cuenta_pedido FOREIGN KEY (id_cuenta) REFERENCES Cuentas(id_cuenta),
 ADD CONSTRAINT fk_alimento_pedido FOREIGN KEY (id_alimento) REFERENCES Alimentos(id_alimento),
-ADD CONSTRAINT fk_mesa_pedido FOREIGN KEY (id_mesa) REFERENCES Mesas(id_mesa),
 ADD CONSTRAINT fk_tipo_consumo_pedido FOREIGN KEY (id_tipo_consumo) REFERENCES TiposConsumos(id_tipo_consumo);
 
 ALTER TABLE Mesas

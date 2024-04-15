@@ -10,7 +10,7 @@ export async function getPedidosComidas() {
     FROM Pedidos p
     JOIN Alimentos a ON p.id_alimento = a.id_alimento
     JOIN Cuentas c ON p.id_cuenta = c.id_cuenta
-    WHERE p.id_tipo_consumo = (SELECT id_tipo_consumo FROM TiposConsumos WHERE nombre = 'Cuenta') 
+    WHERE p.id_tipo_consumo not in (SELECT id_tipo_consumo FROM TiposConsumos WHERE nombre = 'Propina') 
     AND c.estado = 'Abierta'
     AND p.estado_pedido = 'pendiente'
     and a.id_tipo_alimento not in (select id_tipo_alimento from tiposalimentos where nombre = 'Bebida');

@@ -6,7 +6,7 @@ function TopBarMesero({ onScreenChange }) {
   return (
     <div className="top-bar">
       <button onClick={() => onScreenChange('cuentas')}>CUENTAS</button>
-      <button onClick={() => onScreenChange('pedidos')}>PEDIDOS</button>
+      <button onClick={() => onScreenChange('salir')}>SALIR</button>
       
     </div>
   );

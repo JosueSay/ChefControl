@@ -1,9 +1,9 @@
-// HomeMesero.jsx
 import React, { useState } from 'react';
 import './HomeMesero.css';
 import TopBarMesero from './TopBarMesero';
 import Cuentas from './Cuentas'; 
 import Pedidos from './Pedidos';
+import LoginForm from '../Login/LoginForm'; 
 
 function HomeMesero() {
   const [activeScreen, setActiveScreen] = useState('cuentas');
@@ -12,12 +12,18 @@ function HomeMesero() {
     setActiveScreen(screen);
   };
 
+  const handleLogout = () => {
+    setActiveScreen('salir');
+  };
+
   return (
     <div className="home-mesero">
-      <TopBarMesero onScreenChange={handleScreenChange} />
+      {activeScreen !== 'salir' && (
+        <TopBarMesero onScreenChange={handleScreenChange} onLogout={handleLogout} />
+      )}
       <div className="content">
-        {activeScreen === 'cuentas' && <Cuentas />} {/* Ahora mostrará OrderComidas por defecto */}
-        {activeScreen === 'pedidos' && <Pedidos />} {/* Se mostrará OrderBebida si activeScreen es 'bebidas' */}
+        {activeScreen === 'cuentas' && <Cuentas />}
+        {activeScreen === 'salir' && <LoginForm />}
       </div>
     </div>
   );

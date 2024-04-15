@@ -7,6 +7,7 @@ function TopBarChef({ onScreenChange }) {
     <div className="top-bar">
       <button onClick={() => onScreenChange('comidas')}>COMIDAS</button>
       <button onClick={() => onScreenChange('bebidas')}>BEBIDAS</button>
+      <button onClick={() => onScreenChange('salir')}>SALIR</button>
       
     </div>
   );

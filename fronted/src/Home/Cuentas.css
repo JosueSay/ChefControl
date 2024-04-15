@@ -1,0 +1,41 @@
+/* Estilo para el top bar */
+.top-bar {
+    background-color: #333; /* Color de fondo */
+    color: white; /* Color de texto */
+    padding: 10px; /* Espaciado interno */
+  }
+
+  .titulo-cuentas{
+    padding: 50px;
+  }
+  
+  /* Estilo para el área de los botones */
+  .cuentas {
+    text-align: center; /* Centrar horizontalmente */
+    padding-top: 20px; /* Espacio encima del área de botones */
+  }
+  
+  /* Estilo para el botón "AGREGAR" */
+  .agregar-button {
+    position: fixed; /* Posición fija */
+    bottom: 20px; /* Distancia desde abajo */
+    right: 20px; /* Distancia desde la derecha */
+    background-color: #007bff; /* Color de fondo */
+    color: white; /* Color de texto */
+    padding: 10px 20px; /* Espaciado interno */
+    border: none; /* Quitar borde */
+    cursor: pointer; /* Cambiar cursor al pasar sobre él */
+  }
+  
+  .cuentas button {
+    margin-right: 50px; /* Espacio entre botones */
+    margin-bottom: 20px; /* Espacio debajo de los botones */
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .cuentas button {
+      display: block; /* Cambiar a bloque en pantallas pequeñas */
+      margin-right: 0; /* Quitar el margen derecho */
+    }
+  }
+  
