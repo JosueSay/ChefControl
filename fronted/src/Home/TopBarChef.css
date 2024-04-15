@@ -1,0 +1,30 @@
+/* TopBar.css */
+.top-bar {
+    background-color: #ffffff; /* Color de fondo blanco */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+    padding: 20px 50px; /* Padding de 20px arriba/abajo y 50px izquierda/derecha */
+    position: fixed; /* Posición fija */
+    top: 0; /* Alinear arriba */
+    left: 0; /* Alinear a la izquierda */
+    right: 0; /* Alinear a la derecha */
+    width: 100%; /* Ancho completo */
+    z-index: 1000; /* Z-index alto para que esté por encima de otros elementos */
+  }
+  
+  .top-bar button {
+    background-color: #4CAF50; /* Color de fondo verde */
+    border: none; /* Sin borde */
+    color: white; /* Color de texto blanco */
+    padding: 10px 20px; /* Padding de 10px arriba/abajo y 20px izquierda/derecha */
+    text-align: center; /* Alinear texto al centro */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Mostrar como bloque */
+    font-size: 16px; /* Tamaño de fuente */
+    margin-right: 10px; /* Margen derecho entre botones */
+    cursor: pointer; /* Cursor tipo puntero al pasar sobre el botón */
+  }
+  
+  .top-bar button:hover {
+    background-color: #45a049; /* Cambio de color de fondo al pasar el ratón */
+  }
+  

@@ -1,0 +1,26 @@
+/* OrdersP.css */
+.OrderBebidas {
+  color: black; /* Color de texto negro */
+  padding: 0 50px; /* Añade un padding de 50px en los laterales izquierdo y derecho */
+}
+
+.pedido-list {
+  /* Estilos para la lista de pedidos */
+  display: flex; /* Mostrar los ítems en una fila */
+  flex-wrap: wrap; /* Permitir que los ítems se envuelvan a una nueva línea si no caben */
+}
+
+.pedido-item {
+  /* Estilos para cada ítem de pedido */
+  margin-right: 20px; /* Margen derecho entre ítems */
+  margin-bottom: 20px; /* Margen inferior entre ítems */
+}
+
+.pedido-info {
+  /* Estilos para la información del pedido */
+  margin-right: 10px; /* Margen derecho entre la información y el botón */
+}
+
+.pedido-button {
+  /* Estilos para el botón "Hecho" */
+}
